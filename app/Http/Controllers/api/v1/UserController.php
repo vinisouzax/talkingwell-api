@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -32,6 +33,19 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
+        
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6',
+            'login' => 'required|string|max:255|unique:users',
+            'role' => 'required',
+            'cpf_cnpj' => 'required|string|max:20|unique:users',
+            'person' => 'required',
+            'dt_nasc' => 'required',
+            'sex' => 'required|max:1',
+        ]);
+
         try {
             $user = User::create([
                 'name'     => $request->name,

@@ -32,4 +32,20 @@ Route::group(['middleware' => ['jwt.verify']], function () {
         Route::put('/update/{id}', 'api\v1\UserController@update'); 
         Route::delete('/delete/{id}', 'api\v1\UserController@delete'); 
     });
+
+    Route::prefix('/train')->group(function () {
+        Route::get('/index', 'api\v1\TrainController@index'); 
+        Route::get('/show/{id}', 'api\v1\TrainController@show'); 
+        Route::post('/store', 'api\v1\TrainController@store'); 
+        Route::put('/update/{id}', 'api\v1\TrainController@update'); 
+        Route::delete('/delete/{id}', 'api\v1\TrainController@delete'); 
+    });
+
+    Route::prefix('/type_train')->group(function () {
+        Route::get('/index', 'api\v1\TypeTrainController@index'); 
+        Route::get('/show/{id}', 'api\v1\TypeTrainController@show'); 
+        Route::post('/store', 'api\v1\TypeTrainController@store'); 
+        Route::put('/update/{id}', 'api\v1\TypeTrainController@update'); 
+        Route::delete('/delete/{id}', 'api\v1\TypeTrainController@delete'); 
+    });
 });
