@@ -6,14 +6,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\TypeTrain;
-use JWTAuth;
-use App\Helpers\Functions;
 
 class TypeTrainController extends Controller
 {
     public function index(Request $request)
     {
-        Functions::getUserId();
         try {
             $data = ['response' => TypeTrain::get()];
             return response()->json($data, 200);

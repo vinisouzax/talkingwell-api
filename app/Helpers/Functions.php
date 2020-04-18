@@ -10,6 +10,6 @@ class Functions
 
         $token = JWTAuth::getToken();
         $apy = JWTAuth::getPayload($token)->toArray();
-        return $apy;
+        return $apy['sub'];
     }
 }

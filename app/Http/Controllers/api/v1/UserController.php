@@ -13,7 +13,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         try {
-            $page = ($request->page) ? 1 : $request->page;
+            $page = ($request->page) ? $request->page : 1;
             $data = ['response' => User::offset($page-1)->limit(10)->get()];
             return response()->json($data, 200);
         } catch (\Throwable $th) {
