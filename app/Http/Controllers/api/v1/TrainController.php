@@ -28,16 +28,30 @@ class TrainController extends Controller
                 ->offset($page-1)
                 ->limit(10)
                 ->leftJoin('users', 'users.id', '=', 'train.patient_id')
-                ->get()];
+                ->leftJoin('type_train', 'type_train.id', '=', 'train.typetrain_id')
+                ->get(['train.*', 'users.id as u_id', 'users.name as u_name', 'users.person as u_person',
+                'users.email as u_email', 'users.phone as u_phone', 'users.photo as u_photo', 'users.address as u_address',
+                'users.dt_nasc as u_dt_nasc', 'type_train.id as tt_id', 'type_train.name as tt_name'])];
 
             }else{
+
+                //$query = Train::where('therapist_id', $therapist_id)
+                //->offset($page-1)
+                //->limit(10)
+                //->leftJoin('users', 'users.id', '=', 'train.patient_id')
+                //->leftJoin('type_train', 'type_train.id', '=', 'train.typetrain_id')
+                //->toSql();
+
+                //echo $query;
 
                 $data = ['response' => Train::where('therapist_id', $therapist_id)
                 ->offset($page-1)
                 ->limit(10)
                 ->leftJoin('users', 'users.id', '=', 'train.patient_id')
-                ->get()];
-
+                ->leftJoin('type_train', 'type_train.id', '=', 'train.typetrain_id')
+                ->get(['train.*', 'users.id as u_id', 'users.name as u_name', 'users.person as u_person',
+                'users.email as u_email', 'users.phone as u_phone', 'users.photo as u_photo', 'users.address as u_address',
+                'users.dt_nasc as u_dt_nasc', 'type_train.id as tt_id', 'type_train.name as tt_name'])];
             }
 
             return response()->json($data, 200);
@@ -49,10 +63,19 @@ class TrainController extends Controller
     public function show($id)
     {
         try {
-            $data = ['response' => Train::findOrFail($id)->leftJoin('users', 'users.id', '=', 'train.patient_id')];
-            response()->json($data, 200);
+
+            $data = ['response' => Train::findOrFail($id)
+            ->leftJoin('users', 'users.id', '=', 'train.patient_id')
+            ->leftJoin('type_train', 'type_train.id', '=', 'train.typetrain_id')
+            ->get(['train.*', 'users.id as u_id', 'users.name as u_name', 'users.person as u_person',
+            'users.email as u_email', 'users.phone as u_phone', 'users.photo as u_photo', 'users.address as u_address',
+            'users.dt_nasc as u_dt_nasc', 'type_train.id as tt_id', 'type_train.name as tt_name'])];
+            return response()->json($data, 200);
+
         } catch (\Throwable $th) {
+
             return response()->json($th, 500);
+
         }
     }
 
@@ -63,26 +86,23 @@ class TrainController extends Controller
             'name' => 'required|string|max:255',
             'qtd_per_day' => 'required',
             'qtd_movement' => 'required',
+            'typetrain_id' => 'required',
             'days_week' => 'required',
             'dt_start' => 'required',
             'dt_end' => 'required',
         ]);
 
         try {
-            $typeTrainData = $request->all();
-            $data = ['response' => Train::create([                
-                'name'          => $request->name,
-                'qtd_per_day'   => $request->qtd_per_day,
-                'qtd_movement'  => $request->qtd_movement,
-                'days_week'     => $request->days_week,
-                'dt_start'      => $request->dt_start,
-                'dt_end'        => $request->dt_end,
-                'therapist_id'  => Functions::getUserId(),
-                'patient_id'    => $request->patient_id,
-            ])];
+
+            $trainData = $request->all();
+            $trainData['therapist_id'] = Functions::getUserId();
+            $data = ['response' => Train::create($trainData)];
             return response()->json($data, 200);
+
         } catch (\Throwable $th) {
+
             return response()->json($th, 500);
+
         }
     }
 
@@ -92,28 +112,37 @@ class TrainController extends Controller
             'name' => 'required|string|max:255',
             'qtd_per_day' => 'required',
             'qtd_movement' => 'required',
+            'typetrain_id' => 'required',
             'days_week' => 'required',
             'dt_start' => 'required',
             'dt_end' => 'required'        
         ]);
 
         try {
+
             $trainData = $request->all();
             $train = Train::findOrFail($id);
             $data = ['response' => $train->update($trainData)];
             return response()->json($data, 200);
+
         } catch (\Throwable $th) {
+
             return response()->json($th, 500);
+
         }
     }
 
     public function delete($id){
         try {
+
             $train = Train::findOrFail($id);
             $data = ['response' => $train->delete()];
             return response()->json($data, 200);
+
         } catch (\Throwable $th) {
+
             return response()->json($th, 500);
+            
         }
     }
 }

@@ -23,7 +23,7 @@ class TypeTrainController extends Controller
     {
         try {
             $data = ['response' => TypeTrain::findOrFail($id)];
-            response()->json($data, 200);
+            return response()->json($data, 200);
         } catch (\Throwable $th) {
             return response()->json($th, 500);
         }

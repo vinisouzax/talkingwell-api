@@ -25,7 +25,7 @@ class UserController extends Controller
     {
         try {
             $data = ['response' => User::findOrFail($id)];
-            response()->json($data, 200);
+            return response()->json($data, 200);
         } catch (\Throwable $th) {
             return response()->json($th, 500);
         }

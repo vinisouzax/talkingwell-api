@@ -27,8 +27,8 @@ class CreateTrainTable extends Migration
             $table->foreign('therapist_id')->references('id')->on('users');
             $table->integer('patient_id')->unsigned();
             $table->foreign('patient_id')->references('id')->on('users');
-            $table->integer('typeTrain_id')->unsigned();
-            $table->foreign('typeTrain_id')->references('id')->on('type_train');
+            $table->integer('typetrain_id')->unsigned();
+            $table->foreign('typetrain_id')->references('id')->on('type_train');
         });
     }
 
