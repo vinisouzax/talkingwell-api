@@ -48,4 +48,13 @@ Route::group(['middleware' => ['jwt.verify']], function () {
         Route::put('/update/{id}', 'api\v1\TypeTrainController@update'); 
         Route::delete('/delete/{id}', 'api\v1\TypeTrainController@delete'); 
     });
+
+    Route::prefix('/train_user')->group(function () {
+        Route::get('/index', 'api\v1\TrainUserController@index'); 
+    });
+
+    Route::prefix('/patient')->group(function () {
+        Route::get('/index', 'api\v1\PatientController@index'); 
+        Route::get('/show/{id}', 'api\v1\PatientController@show'); 
+    });
 });

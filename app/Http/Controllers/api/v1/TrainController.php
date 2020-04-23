@@ -29,9 +29,10 @@ class TrainController extends Controller
                 ->limit(10)
                 ->leftJoin('users', 'users.id', '=', 'train.patient_id')
                 ->leftJoin('type_train', 'type_train.id', '=', 'train.typetrain_id')
-                ->get(['train.*', 'users.id as u_id', 'users.name as u_name', 'users.person as u_person',
-                'users.email as u_email', 'users.phone as u_phone', 'users.photo as u_photo', 'users.address as u_address',
-                'users.dt_nasc as u_dt_nasc', 'type_train.id as tt_id', 'type_train.name as tt_name'])];
+                ->get(['train.*', 'users.name as patient_name', 'users.person as patient_person',
+                'users.email as patient_email', 'users.phone as patient_phone', 'users.photo as patient_photo', 
+                'users.address as patient_address', 'users.dt_nasc as patient_dt_nasc', 
+                'type_train.name as type_train_name'])];
 
             }else{
 
@@ -49,9 +50,10 @@ class TrainController extends Controller
                 ->limit(10)
                 ->leftJoin('users', 'users.id', '=', 'train.patient_id')
                 ->leftJoin('type_train', 'type_train.id', '=', 'train.typetrain_id')
-                ->get(['train.*', 'users.id as u_id', 'users.name as u_name', 'users.person as u_person',
-                'users.email as u_email', 'users.phone as u_phone', 'users.photo as u_photo', 'users.address as u_address',
-                'users.dt_nasc as u_dt_nasc', 'type_train.id as tt_id', 'type_train.name as tt_name'])];
+                ->get(['train.*', 'users.name as patient_name', 'users.person as patient_person',
+                'users.email as patient_email', 'users.phone as patient_phone', 'users.photo as patient_photo', 
+                'users.address as patient_address', 'users.dt_nasc as patient_dt_nasc', 
+                'type_train.name as type_train_name'])];
             }
 
             return response()->json($data, 200);
@@ -67,9 +69,10 @@ class TrainController extends Controller
             $data = ['response' => Train::findOrFail($id)
             ->leftJoin('users', 'users.id', '=', 'train.patient_id')
             ->leftJoin('type_train', 'type_train.id', '=', 'train.typetrain_id')
-            ->get(['train.*', 'users.id as u_id', 'users.name as u_name', 'users.person as u_person',
-            'users.email as u_email', 'users.phone as u_phone', 'users.photo as u_photo', 'users.address as u_address',
-            'users.dt_nasc as u_dt_nasc', 'type_train.id as tt_id', 'type_train.name as tt_name'])];
+            ->get(['train.*', 'users.name as patient_name', 'users.person as patient_person',
+            'users.email as patient_email', 'users.phone as patient_phone', 'users.photo as patient_photo', 
+            'users.address as patient_address', 'users.dt_nasc as patient_dt_nasc', 
+            'type_train.name as type_train_name'])];
             return response()->json($data, 200);
 
         } catch (\Throwable $th) {
@@ -142,7 +145,7 @@ class TrainController extends Controller
         } catch (\Throwable $th) {
 
             return response()->json($th, 500);
-            
+
         }
     }
 }
